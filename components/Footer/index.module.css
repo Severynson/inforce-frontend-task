@@ -18,13 +18,14 @@
 }
 
 .linksClass {
+  padding: 20px 0 12px 0;
   display: flex;
   justify-content: center;
   gap: 24px;
-  padding: 12px 0;
 }
 
 .socialLinkIconsClass {
+  padding: 6px 0;
   display: flex;
   justify-content: center;
   gap: 24px;
