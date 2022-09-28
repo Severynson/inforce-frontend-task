@@ -8,7 +8,7 @@ interface HomePageProps {
   layoutProps: LayoutProps;
 }
 
-const Home: NextPage = ({ layoutProps }: HomePageProps): JSX.Element => {
+const Home: NextPage<HomePageProps> = ({ layoutProps }): JSX.Element => {
   return (
     <>
       <Head>
