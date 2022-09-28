@@ -7,7 +7,11 @@ export interface LayoutProps {
   children: JSX.Element | JSX.Element[];
 }
 
-export default function Layout({ headerProps, footerProps, children }) {
+export default function Layout({
+  headerProps,
+  footerProps,
+  children,
+}: LayoutProps) {
   return (
     <>
       <Header {...headerProps} />
