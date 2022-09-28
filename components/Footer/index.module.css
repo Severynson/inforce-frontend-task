@@ -1,8 +1,37 @@
 .footer {
   margin-top: auto;
   height: 150px;
+  position: relative;
+  color: var(--text-color);
+}
+
+.footer::after {
+  content: "";
+  background: var(--footer-bg-image);
+  opacity: 0.2;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: -1;
+}
+
+.linksClass {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  padding: 12px 0;
+}
+
+.socialLinkIconsClass {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  cursor: pointer;
 }
 
 .copyrightClass {
   text-align: center;
+  cursor: default;
 }

@@ -26,6 +26,7 @@ export interface HeaderProps {
   sitePagesLinks: SitePageLink[];
   linkButton: LinkButton;
 
+  background?: string;
   primaryColor?: string;
   secondaryColor?: string;
   textMainColor?: string;
@@ -36,11 +37,13 @@ export default function Header({
   sitePagesLinks,
   linkButton,
 
+  background = "https://previews.123rf.com/images/fernati2007/fernati20071706/fernati2007170600079/80754478-peeled-peanuts-background-food-photography-in-studio.jpg",
   primaryColor = "#fff",
   secondaryColor = "#f59f00",
   textMainColor = "#222",
 }: HeaderProps): JSX.Element {
   const [cssVariables, setCssVariables] = useState({
+    "--header-bg-image": `url(${background})`,
     "--primary-color": primaryColor,
     "--secondary-color": secondaryColor,
     "--text-main-color": textMainColor,
@@ -48,11 +51,12 @@ export default function Header({
 
   useEffect(() => {
     setCssVariables({
+      "--header-bg-image": `url(${background})`,
       "--primary-color": primaryColor,
       "--secondary-color": secondaryColor,
       "--text-main-color": textMainColor,
     } as CSSProperties);
-  }, [primaryColor, secondaryColor, textMainColor]);
+  }, [background, primaryColor, secondaryColor, textMainColor]);
 
   return (
     <header className={container} style={cssVariables}>
