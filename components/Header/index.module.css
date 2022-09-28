@@ -1,0 +1,57 @@
+.container {
+  background-color: var(--primary-color);
+  min-height: 82;
+  display: flex;
+  justify-content: center;
+}
+
+.content {
+  color: var(--text-main-color);
+  display: flex;
+  width: 75%;
+  margin: 6px 12px;
+  position: relative;
+}
+
+.mainIconContainerClass {
+  margin-right: 12px;
+}
+
+.navigationPanel {
+  display: flex;
+  gap: 12px;
+}
+
+.sitePageLinkClass {
+  background-color: var(--secondary-color);
+  padding: 0 4px;
+  border-radius: 4px;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.6;
+  height: 40px;
+  transition: all 0.4s;
+}
+
+.sitePageLinkClass:hover {
+  background-color: var(--primary-color);
+}
+
+.linkButtonClass {
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
+  position: absolute;
+  right: 0;
+  padding: 0 4px;
+  border-radius: 4px;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.6;
+  height: 40px;
+  transition: all 0.4s;
+}
+
+.linkButtonClass:hover {
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+}
