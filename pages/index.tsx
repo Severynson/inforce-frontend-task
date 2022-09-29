@@ -28,10 +28,9 @@ const Home: NextPage<HomePageProps> = ({ layoutProps }): JSX.Element => {
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  const layoutProps = await (
-    await fetch("http://localhost:3001/layoutProps")
-  ).json();
-  console.log(layoutProps);
+  const layoutProps = JSON.parse(
+    await (await fetch(`${process.env.API_HOST}/layoutData`)).json()
+  );
 
   return {
     props: {
