@@ -10,8 +10,8 @@ export default function Home(): JSX.Element {
 
   return (
     <ul className={container}>
-      {sortedProducts?.map(({ title, image, description, id }) => (
-        <Card key={id} {...{ title, image, description }} />
+      {sortedProducts?.map(({ title, image, id }) => (
+        <Card key={id} {...{ title, image }} />
       ))}
     </ul>
   );

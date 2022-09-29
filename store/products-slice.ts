@@ -41,8 +41,8 @@ const productsSlice = createSlice({
     selectedSortingOption: SortingOptions.SORTED_BY_ALPHABET,
   },
   reducers: {
-    sortData(state) {
-      state.selectedSortingOption === SortingOptions.SORTED_BY_ALPHABET
+    sortData(state, actions) {
+      actions.payload === SortingOptions.SORTED_BY_ALPHABET
         ? state.products.sort((a, b) => a.title.localeCompare(b.title))
         : state.products;
     },

@@ -1,8 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
-import React, { CSSProperties, useEffect, useState } from "react";
-import { SortingOptions } from "../../store/products-slice";
+import React, { ChangeEvent, CSSProperties, useEffect, useState } from "react";
+import { SortingOptions, productsActions } from "../../store/products-slice";
 import classes from "./index.module.css";
+import { useDispatch } from "react-redux";
+
 const {
   container,
   content,
@@ -45,13 +47,7 @@ export default function Header({
   secondaryColor = "#f59f00",
   textMainColor = "#222",
 }: HeaderProps): JSX.Element {
-  const [typeOfSorting, setTypeOfSorting] = useState<SortingOptions>(
-    SortingOptions.SORTED_BY_ALPHABET
-  );
-
-  useEffect(() => {
-    // dispatch;
-  }, [typeOfSorting]);
+  const dispatch = useDispatch();
 
   const [cssVariables, setCssVariables] = useState({
     "--header-bg-image": `url(${background})`,
@@ -68,6 +64,14 @@ export default function Header({
       "--text-main-color": textMainColor,
     } as CSSProperties);
   }, [background, primaryColor, secondaryColor, textMainColor]);
+
+  const onSelectSortingOptionsHandler =
+    (
+      event: ChangeEvent<HTMLSelectElement>
+    ): ((event: ChangeEvent<HTMLSelectElement>) => void) =>
+    (event) => {
+      dispatch(productsActions.sortData(event.target.value));
+    };
 
   return (
     <header className={container} style={cssVariables}>
@@ -94,7 +98,7 @@ export default function Header({
           {
             <select
               className={typesOfSorting}
-              onChange={(e) => console.log(e.target.value)}
+              onChange={onSelectSortingOptionsHandler()}
             >
               <option selected disabled>
                 type of sorting:

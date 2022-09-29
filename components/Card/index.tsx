@@ -5,13 +5,11 @@ const { container, imageContainer, descriptionPart } = classes;
 export interface CardProps {
   title: string;
   image: string; // url
-  description: string;
 }
 
 export default function Card({
   title,
   image,
-  description,
 }: CardProps): JSX.Element {
   return (
     <li className={container}>
@@ -26,7 +24,7 @@ export default function Card({
         />
       </div>
       <div className={descriptionPart}>
-        <h3>Title</h3>
+        <h3>{title}</h3>
         <button>Delete</button>
       </div>
     </li>
