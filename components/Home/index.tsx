@@ -3,16 +3,22 @@ import classes from "./index.module.css";
 import { useSelector } from "react-redux";
 const { container } = classes;
 
-export default function Home(): JSX.Element {
+interface HomeProps {
+  productsList: any[];
+}
+
+export default function Home({ productsList }: HomeProps): JSX.Element {
   const sortedProducts = useSelector<any, any[]>(
-    (state) => state.productsSlice.products
+    (state) => state.productsSlice.sortedProducts
   );
 
   return (
     <ul className={container}>
-      {sortedProducts?.map(({ title, image, id }) => (
-        <Card key={id} {...{ title, image }} />
-      ))}
+      {(!sortedProducts.length ? productsList : sortedProducts)?.map(
+        ({ title, image, id }) => (
+          <Card key={id} {...{ title, image }} />
+        )
+      )}
     </ul>
   );
 }

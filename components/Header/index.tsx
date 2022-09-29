@@ -65,13 +65,9 @@ export default function Header({
     } as CSSProperties);
   }, [background, primaryColor, secondaryColor, textMainColor]);
 
-  const onSelectSortingOptionsHandler =
-    (
-      event: ChangeEvent<HTMLSelectElement>
-    ): ((event: ChangeEvent<HTMLSelectElement>) => void) =>
-    (event) => {
-      dispatch(productsActions.sortData(event.target.value));
-    };
+  const onSelectSortingOptionsHandler = (
+    event: ChangeEvent<HTMLSelectElement>
+  ): void => void dispatch(productsActions.sortData(event.target.value));
 
   return (
     <header className={container} style={cssVariables}>
@@ -98,13 +94,13 @@ export default function Header({
           {
             <select
               className={typesOfSorting}
-              onChange={onSelectSortingOptionsHandler()}
+              onChange={onSelectSortingOptionsHandler}
             >
               <option selected disabled>
-                type of sorting:
+                {SortingOptions.TYPE_OF_SORTING}
               </option>
-              <option>Sorted by alphabet</option>
-              <option>Sorted by default order</option>
+              <option>{SortingOptions.SORTED_BY_ALPHABET}</option>
+              <option>{SortingOptions.SORTED_BY_DEFAULT_ORDER}</option>
             </select>
           }
         </div>

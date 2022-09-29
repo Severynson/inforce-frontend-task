@@ -1,14 +1,29 @@
 import type { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
+import { useDispatch } from "react-redux";
+import { productsActions } from "../store/products-slice";
 
 import Layout, { LayoutProps } from "../components/Layout";
 import HomeComponent from "../components/Home";
+import { useEffect } from "react";
 
 interface HomePageProps {
   layoutProps: LayoutProps;
+  productsList: any[];
 }
 
-const Home: NextPage<HomePageProps> = ({ layoutProps }): JSX.Element => {
+const Home: NextPage<HomePageProps> = ({
+  layoutProps,
+  productsList,
+}): JSX.Element => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    localStorage.setItem("productsList", JSON.stringify(productsList));
+
+    dispatch(productsActions.setData(productsList));
+  }, []);
+
   return (
     <>
       <Head>
@@ -21,7 +36,7 @@ const Home: NextPage<HomePageProps> = ({ layoutProps }): JSX.Element => {
       </Head>
 
       <Layout {...layoutProps}>
-        <HomeComponent />
+        <HomeComponent productsList={productsList} />
       </Layout>
     </>
   );
@@ -31,10 +46,14 @@ export const getStaticProps: GetStaticProps = async () => {
   const layoutProps = JSON.parse(
     await (await fetch(`${process.env.API_HOST}/layoutData`)).json()
   );
+  const productsList = JSON.parse(
+    await (await fetch(`${process.env.API_HOST}/productsData`)).json()
+  );
 
   return {
     props: {
       layoutProps,
+      productsList,
     },
   };
 };
