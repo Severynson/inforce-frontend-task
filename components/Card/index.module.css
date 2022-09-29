@@ -6,6 +6,7 @@
   height: 400px;
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .imageContainer {
@@ -21,4 +22,8 @@
 
 .descriptionPart {
   z-index: 1;
+}
+
+.descriptionPart h3 {
+  text-align: center;
 }

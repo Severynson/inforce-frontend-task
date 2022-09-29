@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { CSSProperties, useEffect, useState } from "react";
+import { SortingOptions } from "../../store/products-slice";
 import classes from "./index.module.css";
 const {
   container,
@@ -9,6 +10,8 @@ const {
   navigationPanel,
   mainIconContainerClass,
   linkButtonClass,
+  buttonsBox,
+  typesOfSorting,
 } = classes;
 
 interface SitePageLink {
@@ -24,7 +27,7 @@ interface LinkButton {
 export interface HeaderProps {
   mainIconImage: string; // has to be a web-link
   sitePagesLinks: SitePageLink[];
-  linkButton: LinkButton;
+  addProductButton: LinkButton;
 
   background?: string;
   primaryColor?: string;
@@ -35,13 +38,21 @@ export interface HeaderProps {
 export default function Header({
   mainIconImage,
   sitePagesLinks,
-  linkButton,
+  addProductButton,
 
   background = "https://previews.123rf.com/images/fernati2007/fernati20071706/fernati2007170600079/80754478-peeled-peanuts-background-food-photography-in-studio.jpg",
   primaryColor = "#fff",
   secondaryColor = "#f59f00",
   textMainColor = "#222",
 }: HeaderProps): JSX.Element {
+  const [typeOfSorting, setTypeOfSorting] = useState<SortingOptions>(
+    SortingOptions.SORTED_BY_ALPHABET
+  );
+
+  useEffect(() => {
+    // dispatch;
+  }, [typeOfSorting]);
+
   const [cssVariables, setCssVariables] = useState({
     "--header-bg-image": `url(${background})`,
     "--primary-color": primaryColor,
@@ -76,9 +87,23 @@ export default function Header({
             </Link>
           ))}
         </nav>
-        <Link href={linkButton.link}>
-          <a className={linkButtonClass}>{linkButton.text}</a>
-        </Link>
+        <div className={buttonsBox}>
+          <Link href={addProductButton.link}>
+            <a className={linkButtonClass}>{addProductButton.text}</a>
+          </Link>
+          {
+            <select
+              className={typesOfSorting}
+              onChange={(e) => console.log(e.target.value)}
+            >
+              <option selected disabled>
+                type of sorting:
+              </option>
+              <option>Sorted by alphabet</option>
+              <option>Sorted by default order</option>
+            </select>
+          }
+        </div>
       </div>
     </header>
   );

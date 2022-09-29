@@ -10,15 +10,11 @@
         {
           "pageName": "About Us",
           "link": "/#about-us"
-        },
-        {
-          "pageName": "Frequently asked questions",
-          "link": "/#faq"
         }
       ],
-      "linkButton": {
-        "text": "Contact Us",
-        "link": "https://www.instagram.com/peanutbutter_ua/"
+      "addProductButton": {
+        "text": "Add product",
+        "link": "/add-product"
       },
 
       "primaryColor": "#fff",

@@ -25,7 +25,10 @@ export default function Card({
           width="100%"
         />
       </div>
-      <div className={descriptionPart}></div>
+      <div className={descriptionPart}>
+        <h3>Title</h3>
+        <button>Delete</button>
+      </div>
     </li>
   );
 }
