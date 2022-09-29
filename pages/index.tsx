@@ -19,8 +19,6 @@ const Home: NextPage<HomePageProps> = ({
   const dispatch = useDispatch();
 
   useEffect(() => {
-    localStorage.setItem("productsList", JSON.stringify(productsList));
-
     dispatch(productsActions.setData(productsList));
   }, []);
 

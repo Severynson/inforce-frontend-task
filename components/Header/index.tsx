@@ -67,7 +67,10 @@ export default function Header({
 
   const onSelectSortingOptionsHandler = (
     event: ChangeEvent<HTMLSelectElement>
-  ): void => void dispatch(productsActions.sortData(event.target.value));
+  ): void => {
+    console.log(event.target.value);
+    dispatch(productsActions.sortData(event.target.value));
+  };
 
   return (
     <header className={container} style={cssVariables}>

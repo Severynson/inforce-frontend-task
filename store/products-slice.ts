@@ -1,6 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
-
-const deepCopy = (object: object) => JSON.parse(JSON.stringify(object));
+import { createSlice, current } from "@reduxjs/toolkit";
 
 export enum SortingOptions {
   TYPE_OF_SORTING = "type of sorting:",
@@ -11,9 +9,6 @@ export enum SortingOptions {
 const initialState = {
   products: [] as any[],
   sortedProducts: [] as any[],
-  selectedSortingOption: SortingOptions.SORTED_BY_ALPHABET,
-  status: null as null | string,
-  error: null as null | string,
 };
 
 const productsSlice = createSlice({
@@ -21,26 +16,25 @@ const productsSlice = createSlice({
   initialState,
   reducers: {
     setData(state, actions) {
-      state.products.length = 0;
-      state.products = deepCopy(actions.payload);
-      state.sortedProducts = deepCopy(state.products);
+      state.products = actions.payload;
+
+      state.sortedProducts = [...actions.payload].sort((a: any, b: any) =>
+        a.title.localeCompare(b.title)
+      );
     },
     sortData(state, actions) {
-      console.log(state);
+      switch (actions.payload) {
+        case SortingOptions.SORTED_BY_ALPHABET ||
+          SortingOptions.TYPE_OF_SORTING: {
+          state.sortedProducts = [...current(state.products)].sort((a, b) =>
+            a.title.localeCompare(b.title)
+          );
+          break;
+        }
 
-      if (
-        actions.payload ===
-        (SortingOptions.SORTED_BY_ALPHABET || SortingOptions.TYPE_OF_SORTING)
-      ) {
-        state.sortedProducts = state.products.sort((a: any, b: any) =>
-          a.title.localeCompare(b.title)
-        );
-        console.log("IIIFFFF worked");
-      } else {
-        console.log("EEEls worked, state deep copy: ", state.products);
-        state.sortedProducts = deepCopy(
-          JSON.parse(localStorage.getItem("productsList") as string)
-        );
+        default: {
+          state.sortedProducts = [...current(state.products)];
+        }
       }
     },
   },
