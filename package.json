@@ -3,12 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "server": "json-server -w server/db.json --port 3001",
+    "dev": "concurrently \"yarn next dev\" \"yarn run server\" ",
     "build": "next build",
-    "start": "next start",
+    "start": "concurrently \"yarn next start\" \"yarn run server\" ",
     "lint": "next lint"
   },
   "dependencies": {
+    "concurrently": "^7.4.0",
+    "json-server": "^0.17.0",
     "next": "12.3.1",
     "react": "18.2.0",
     "react-dom": "18.2.0"
