@@ -1,4 +1,5 @@
 import { createSlice, current } from "@reduxjs/toolkit";
+import { Product } from "../components/Home";
 
 export enum SortingOptions {
   TYPE_OF_SORTING = "type of sorting:",
@@ -6,9 +7,14 @@ export enum SortingOptions {
   SORTED_BY_DEFAULT_ORDER = "Sorted by default order",
 }
 
-const initialState = {
-  products: [] as any[],
-  sortedProducts: [] as any[],
+interface ProductsSliceState {
+  products: Product[];
+  sortedProducts: Product[];
+}
+
+const initialState: ProductsSliceState = {
+  products: [],
+  sortedProducts: [],
 };
 
 const productsSlice = createSlice({
@@ -18,7 +24,7 @@ const productsSlice = createSlice({
     setData(state, actions) {
       state.products = actions.payload;
 
-      state.sortedProducts = [...actions.payload].sort((a: any, b: any) =>
+      state.sortedProducts = [...actions.payload]?.sort((a: any, b: any) =>
         a.title.localeCompare(b.title)
       );
     },
@@ -26,14 +32,14 @@ const productsSlice = createSlice({
       switch (actions.payload) {
         case SortingOptions.SORTED_BY_ALPHABET ||
           SortingOptions.TYPE_OF_SORTING: {
-          state.sortedProducts = [...current(state.products)].sort((a, b) =>
+          state.sortedProducts = [...current(state.products)]?.sort((a, b) =>
             a.title.localeCompare(b.title)
           );
           break;
         }
 
         default: {
-          state.sortedProducts = [...current(state.products)];
+          state.sortedProducts = state.products;
         }
       }
     },

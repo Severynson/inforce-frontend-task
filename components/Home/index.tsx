@@ -3,12 +3,19 @@ import classes from "./index.module.css";
 import { useSelector } from "react-redux";
 const { container } = classes;
 
+export interface Product {
+  id: string;
+  title: string;
+  description: string;
+  image: string; // url
+}
+
 interface HomeProps {
-  productsList: any[];
+  productsList: Product[];
 }
 
 export default function Home({ productsList }: HomeProps): JSX.Element {
-  const sortedProducts = useSelector<any, any[]>(
+  const sortedProducts = useSelector<string, Product[]>(
     (state) => state.productsSlice.sortedProducts
   );
 
