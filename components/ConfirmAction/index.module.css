@@ -29,21 +29,21 @@
 }
 
 .confirmButton {
-  background-color: var(--butonColor1);
+  background-color: var(--button-color-1);
   box-shadow: 0 0 0 1px white;
 }
 
 .confirmButton:hover {
   background-color: white;
-  box-shadow: 0 0 0 3px var(--butonColor1);
+  box-shadow: 0 0 0 3px var(--button-color-1);
 }
 
 .declineButton {
-  background-color: var(--butonColor2);
+  background-color: var(--button-color-2);
   box-shadow: 0 0 0 3px white;
 }
 
 .declineButton:hover {
   background-color: white;
-  box-shadow: 0 0 0 3px var(--butonColor2);
+  box-shadow: 0 0 0 3px var(--button-color-2);
 }

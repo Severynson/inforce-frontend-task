@@ -1,6 +1,6 @@
 body {
-  --butonColor1: greenyellow;
-  --butonColor2: #ff6b6b;
+  --button-color-1: greenyellow;
+  --button-color-2: #ff6b6b;
 }
 
 html,
@@ -34,4 +34,8 @@ body,
 body {
   color: #222;
   background: #ffffff;
+}
+
+button {
+  cursor: pointer;
 }

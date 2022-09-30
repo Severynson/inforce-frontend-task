@@ -35,7 +35,7 @@ export default function Card({ title, image, id }: CardProps): JSX.Element {
       const productsList = JSON.parse(
         await (await fetch("http://localhost:3000/api/products-data")).json()
       );
-      console.log("before dispatch: ", currentSortingOption);
+
       dispatch(
         productsActions.setData({
           products: productsList,

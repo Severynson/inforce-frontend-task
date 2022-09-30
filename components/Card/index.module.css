@@ -37,7 +37,7 @@
   width: 90%;
   height: 36px;
   border: none;
-  background-color: var(--butonColor2);
+  background-color: var(--button-color-2);
   border-radius: 6px;
   border: none;
   transition: 0.4s;
@@ -45,5 +45,5 @@
 
 .deleteButton:hover {
   background-color: white;
-  box-shadow: 0 0 0 1px var(--butonColor2);
+  box-shadow: 0 0 0 1px var(--button-color-2);
 }

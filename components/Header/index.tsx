@@ -72,6 +72,8 @@ export default function Header({
   const addProductModalToggle = () =>
     void setIsAddProductModalOpen((prevState) => !prevState);
 
+  const closeModalHandler = () => void setIsAddProductModalOpen(false);
+
   const onSelectSortingOptionsHandler = (
     event: ChangeEvent<HTMLSelectElement>
   ): void => {
@@ -118,7 +120,7 @@ export default function Header({
         </div>
       </div>
       <Modal toggleModal={addProductModalToggle} isOpen={isAddProductModalOpen}>
-        <AddProductForm />
+        <AddProductForm {...{ closeModalHandler }} />
       </Modal>
     </header>
   );
