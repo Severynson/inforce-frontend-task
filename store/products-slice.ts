@@ -10,11 +10,13 @@ export enum SortingOptions {
 interface ProductsSliceState {
   products: Product[];
   sortedProducts: Product[];
+  sortingOption: SortingOptions;
 }
 
 const initialState: ProductsSliceState = {
   products: [],
   sortedProducts: [],
+  sortingOption: SortingOptions.TYPE_OF_SORTING,
 };
 
 const sortProductsByAlphabet = (products: Product[]): Product[] =>
@@ -25,11 +27,22 @@ const productsSlice = createSlice({
   initialState,
   reducers: {
     setData(state, actions) {
-      state.products = actions.payload;
+      state.products = actions.payload.products;
 
-      state.sortedProducts = sortProductsByAlphabet([...actions.payload]);
+      if (
+        actions.payload.sortingOption ===
+        (SortingOptions.TYPE_OF_SORTING || SortingOptions.SORTED_BY_ALPHABET)
+      ) {
+        state.sortedProducts = sortProductsByAlphabet([
+          ...actions.payload.products,
+        ]);
+      } else {
+        state.sortedProducts = [...actions.payload.products];
+      }
     },
     sortData(state, actions) {
+      state.sortingOption = actions.payload;
+
       switch (actions.payload) {
         case SortingOptions.SORTED_BY_ALPHABET ||
           SortingOptions.TYPE_OF_SORTING: {
@@ -38,7 +51,6 @@ const productsSlice = createSlice({
           ]);
           break;
         }
-
         default: {
           state.sortedProducts = state.products;
         }

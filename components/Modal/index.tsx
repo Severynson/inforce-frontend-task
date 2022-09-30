@@ -1,4 +1,4 @@
-import { MouseEvent, useEffect } from "react";
+import { MouseEvent, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import classes from "./index.module.css";
 const { modal, modalContent, modalActiveClass, modalContentActiveClass } =
@@ -14,40 +14,35 @@ const stopPropagation = (event: MouseEvent<HTMLElement>) => {
   event.stopPropagation();
 };
 
-let nearRootElement: HTMLElement;
-
 export default function Modal({
   isOpen,
   toggleModal,
   children,
 }: ModalProps): JSX.Element | null {
-  useEffect(() => {
-    nearRootElement = document.createElement("div");
-    document.body.appendChild(nearRootElement);
+  const [isBrowser, setIsBrowser] = useState<boolean>(false);
 
-    // on component unmount:
-    return () => {
-      if (document.body.contains(nearRootElement))
-        document.body.removeChild(nearRootElement);
-    };
+  useEffect(() => {
+    setIsBrowser(true);
   }, []);
 
-  return isOpen && !!nearRootElement
+  const modalJSX = (
+    <div
+      className={`${modal} ${isOpen ? modalActiveClass : null}`}
+      onClick={() => void toggleModal()}
+    >
+      <div
+        className={`${modalContent} ${isOpen ? modalContentActiveClass : ""}`}
+        onClick={stopPropagation}
+      >
+        {children}
+      </div>
+    </div>
+  );
+
+  return isOpen && isBrowser
     ? ReactDOM.createPortal(
-        <div
-          className={`${modal} ${isOpen ? modalActiveClass : ""}`}
-          onClick={() => void toggleModal()}
-        >
-          <div
-            className={`${modalContent} ${
-              isOpen ? modalContentActiveClass : ""
-            }`}
-            onClick={stopPropagation}
-          >
-            {children}
-          </div>
-        </div>,
-        nearRootElement
+        modalJSX,
+        document.getElementById("modal-root") as HTMLElement
       )
     : null;
 }

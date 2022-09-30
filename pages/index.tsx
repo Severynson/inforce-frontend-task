@@ -1,7 +1,7 @@
 import type { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import { useDispatch } from "react-redux";
-import { productsActions } from "../store/products-slice";
+import { productsActions, SortingOptions } from "../store/products-slice";
 
 import Layout, { LayoutProps } from "../components/Layout";
 import HomeComponent from "../components/Home";
@@ -19,7 +19,12 @@ const Home: NextPage<HomePageProps> = ({
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(productsActions.setData(productsList));
+    dispatch(
+      productsActions.setData({
+        products: productsList,
+        sortingOption: SortingOptions.TYPE_OF_SORTING,
+      })
+    );
     // eslint-disable-next-line
   }, []);
 
@@ -43,10 +48,10 @@ const Home: NextPage<HomePageProps> = ({
 
 export const getStaticProps: GetStaticProps = async () => {
   const layoutProps = JSON.parse(
-    await (await fetch(`${process.env.API_HOST}/layoutData`)).json()
+    await (await fetch(`${process.env.API_HOST}/layout-data`)).json()
   );
   const productsList = JSON.parse(
-    await (await fetch(`${process.env.API_HOST}/productsData`)).json()
+    await (await fetch(`${process.env.API_HOST}/products-data`)).json()
   );
 
   return {

@@ -16,7 +16,6 @@
         "text": "Add product",
         "link": "/add-product"
       },
-
       "primaryColor": "#fff",
       "secondaryColor": "#f59f00",
       "textMainColor": "#222"
@@ -50,7 +49,6 @@
         }
       ],
       "copyright": "NuttyParadise",
-
       "background": "https://previews.123rf.com/images/fernati2007/fernati20071706/fernati2007170600079/80754478-peeled-peanuts-background-food-photography-in-studio.jpg",
       "textColor": "#222"
     }

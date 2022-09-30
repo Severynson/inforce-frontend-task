@@ -24,7 +24,7 @@ export default function Home({ productsList }: HomeProps): JSX.Element {
     <ul className={container}>
       {(!sortedProducts.length ? productsList : sortedProducts)?.map(
         ({ title, image, id }) => (
-          <Card key={id} {...{ title, image }} />
+          <Card key={id} {...{ title, image, id }} />
         )
       )}
     </ul>
