@@ -14,10 +14,6 @@
   width: 224px;
   border-radius: 15px;
   position: relative;
-  display: flex;
-  align-items: center;
-  z-index: 0;
-  overflow: hidden;
   background-color: white;
 }
 

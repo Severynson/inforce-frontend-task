@@ -1,0 +1,45 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.container {
+  margin: 30px;
+  max-width: 500px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.productClass {
+  width: 500px;
+  padding: 10px;
+  background-color: gray;
+  border-radius: 15px;
+}
+
+.productClass h1 {
+  margin: 6px 0;
+}
+
+.productClass p {
+  color: aliceblue;
+  background-color: #444;
+  border-radius: 5px;
+  padding: 10px 5px;
+}
+
+.imageContainer {
+  height: 350px;
+  width: 100%;
+  border-radius: 15px;
+  position: relative;
+  background-color: white;
+}
+
+.commentsSection {
+  background-color: #fffff1;
+  width: 450px;
+}

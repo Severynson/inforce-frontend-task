@@ -1,15 +1,17 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
-export default async function deleteProductApi(
+export default async function commentApi(
   req: NextApiRequest,
   res: NextApiResponse<string>
 ) {
-  const { productId } = req.query;
+  const { forProductId } = req.query;
 
   if (req.method === "GET") {
     const response = await fetch(
-      `${process.env.DB_HOST}/products?id=${productId}`
+      `${process.env.DB_HOST}/comments?productId=${forProductId}`
     );
+
+
 
     //
     if (response.status === 200)
@@ -19,19 +21,19 @@ export default async function deleteProductApi(
     //
   } else if (req.method === "DELETE") {
     const response = await fetch(
-      `${process.env.DB_HOST}/products/${productId}`,
+      `${process.env.DB_HOST}/comments/${forProductId}`,
       {
         method: "DELETE",
       }
     );
     //
-    if (response.status === 200) res.status(200).send(`${productId}`);
+    if (response.status === 200) res.status(200).send(`${forProductId}`);
     else res.status(400).json('{ "error": "connection with db failed"}');
     //
   }
   //
-  else if (req.method === "POST" && productId === "new-product") {
-    const response = await fetch(`${process.env.DB_HOST}/products`, {
+  else if (req.method === "POST" && forProductId === "new-comment") {
+    const response = await fetch(`${process.env.DB_HOST}/comments`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

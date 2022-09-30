@@ -20,8 +20,6 @@ export default function Home({ productsList }: HomeProps): JSX.Element {
     (state) => state.productsSlice.sortedProducts
   );
 
-  console.log(sortedProducts);
-
   return (
     <ul className={container}>
       {(!sortedProducts.length ? productsList : sortedProducts)?.map(

@@ -1,5 +1,6 @@
 import Image from "next/image";
-import { useState } from "react";
+import { useRouter } from "next/router";
+import { MouseEventHandler, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { productsActions } from "../../store/products-slice";
@@ -16,6 +17,7 @@ export interface CardProps {
 
 export default function Card({ title, image, id }: CardProps): JSX.Element {
   const dispatch = useDispatch();
+  const { push } = useRouter();
   const currentSortingOption = useSelector<RootState>(
     (state) => state.productsSlice.sortingOption
   );
@@ -45,36 +47,33 @@ export default function Card({ title, image, id }: CardProps): JSX.Element {
     }
   };
 
+  const openProductPage: MouseEventHandler<HTMLLIElement> = (event) => {
+    push("/product/" + id);
+  };
+
+  const deleteHandler: MouseEventHandler<HTMLButtonElement> = (event) => {
+    event.stopPropagation();
+    setIsDeleteModalOpen(true);
+  };
+
   return (
-    <li className={container}>
+    <li className={container} onClick={openProductPage}>
       <Modal
         isOpen={isDeleteModalOpen}
         toggleModal={() => void setIsDeleteModalOpen((prevState) => !prevState)}
       >
         <ConfirmAction
-          text="Decline product deleting"
+          text="Continue product deleting"
           confirmButtonCallback={deleteItem}
           declineButtonCallback={() => void setIsDeleteModalOpen(false)}
         />
       </Modal>
       <div className={imageContainer}>
-        <Image
-          layout="fill"
-          objectFit="contain"
-          alt="nut butter"
-          src={image}
-          height="100%"
-          width="100%"
-        />
+        <Image layout="fill" objectFit="contain" alt="nut butter" src={image} />
       </div>
       <div className={descriptionPart}>
         <h3>{title}</h3>
-        <button
-          className={deleteButton}
-          onClick={() => {
-            setIsDeleteModalOpen(true);
-          }}
-        >
+        <button className={deleteButton} onClick={deleteHandler}>
           Delete
         </button>
       </div>

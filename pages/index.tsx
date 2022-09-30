@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { productsActions, SortingOptions } from "../store/products-slice";
 
 import Layout, { LayoutProps } from "../components/Layout";
-import HomeComponent from "../components/Home";
+import Home from "../components/Home";
 import { useEffect } from "react";
 
 interface HomePageProps {
@@ -12,7 +12,7 @@ interface HomePageProps {
   productsList: any[];
 }
 
-const Home: NextPage<HomePageProps> = ({
+const HomePage: NextPage<HomePageProps> = ({
   layoutProps,
   productsList,
 }): JSX.Element => {
@@ -40,7 +40,7 @@ const Home: NextPage<HomePageProps> = ({
       </Head>
 
       <Layout {...layoutProps}>
-        <HomeComponent productsList={productsList} />
+        <Home productsList={productsList} />
       </Layout>
     </>
   );
@@ -62,4 +62,4 @@ export const getStaticProps: GetStaticProps = async () => {
   };
 };
 
-export default Home;
+export default HomePage;

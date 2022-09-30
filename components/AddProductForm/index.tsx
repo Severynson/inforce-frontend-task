@@ -30,7 +30,7 @@ export default function AddProductForm({
       image: "",
       title: "",
       description: "",
-      id: "e" + Math.random().toString(),
+      id: `e${Math.random().toString().split("").slice(2).join("")}`,
     } as Inputs,
   });
 
