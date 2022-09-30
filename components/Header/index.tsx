@@ -4,6 +4,8 @@ import React, { ChangeEvent, CSSProperties, useEffect, useState } from "react";
 import { SortingOptions, productsActions } from "../../store/products-slice";
 import classes from "./index.module.css";
 import { useDispatch } from "react-redux";
+import Modal from "../Modal";
+import AddProductForm from "../AddProductForm";
 
 const {
   container,
@@ -11,7 +13,7 @@ const {
   sitePageLinkClass,
   navigationPanel,
   mainIconContainerClass,
-  linkButtonClass,
+  addProductButtonClass,
   buttonsBox,
   typesOfSorting,
 } = classes;
@@ -48,6 +50,8 @@ export default function Header({
   textMainColor = "#222",
 }: HeaderProps): JSX.Element {
   const dispatch = useDispatch();
+  const [isAddProductModalOpen, setIsAddProductModalOpen] =
+    useState<boolean>(false);
 
   const [cssVariables, setCssVariables] = useState({
     "--header-bg-image": `url(${background})`,
@@ -65,10 +69,12 @@ export default function Header({
     } as CSSProperties);
   }, [background, primaryColor, secondaryColor, textMainColor]);
 
+  const addProductModalToggle = () =>
+    void setIsAddProductModalOpen((prevState) => !prevState);
+
   const onSelectSortingOptionsHandler = (
     event: ChangeEvent<HTMLSelectElement>
   ): void => {
-    console.log(event.target.value);
     dispatch(productsActions.sortData(event.target.value));
   };
 
@@ -91,9 +97,12 @@ export default function Header({
           ))}
         </nav>
         <div className={buttonsBox}>
-          <Link href={addProductButton.link}>
-            <a className={linkButtonClass}>{addProductButton.text}</a>
-          </Link>
+          <button
+            onClick={() => void setIsAddProductModalOpen(true)}
+            className={addProductButtonClass}
+          >
+            {addProductButton.text}
+          </button>
           {
             <select
               className={typesOfSorting}
@@ -108,6 +117,9 @@ export default function Header({
           }
         </div>
       </div>
+      <Modal toggleModal={addProductModalToggle} isOpen={isAddProductModalOpen}>
+        <AddProductForm />
+      </Modal>
     </header>
   );
 }
