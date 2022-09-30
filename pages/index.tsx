@@ -20,6 +20,7 @@ const Home: NextPage<HomePageProps> = ({
 
   useEffect(() => {
     dispatch(productsActions.setData(productsList));
+    // eslint-disable-next-line
   }, []);
 
   return (
