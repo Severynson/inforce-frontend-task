@@ -1,0 +1,49 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.container h2 {
+  font-size: 32px;
+  background-color: gray;
+  padding: 3px 0;
+  border-radius: 6px;
+}
+.container h3 {
+  font-size: 24px;
+}
+
+.buttonsContainer {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}
+
+.buttonsContainer button {
+  height: 36px;
+  width: 120px;
+  border-radius: 6px;
+  border: none;
+  transition: 0.4s;
+}
+
+.confirmButton {
+  background-color: var(--butonColor1);
+  box-shadow: 0 0 0 1px white;
+}
+
+.confirmButton:hover {
+  background-color: white;
+  box-shadow: 0 0 0 3px var(--butonColor1);
+}
+
+.declineButton {
+  background-color: var(--butonColor2);
+  box-shadow: 0 0 0 3px white;
+}
+
+.declineButton:hover {
+  background-color: white;
+  box-shadow: 0 0 0 3px var(--butonColor2);
+}

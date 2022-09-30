@@ -1,3 +1,8 @@
+body {
+  --butonColor1: greenyellow;
+  --butonColor2: #ff6b6b;
+}
+
 html,
 body {
   padding: 0;

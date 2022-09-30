@@ -1,8 +1,9 @@
 import Image from "next/image";
 import { useState } from "react";
+import ConfirmAction from "../ConfirmAction";
 import Modal from "../Modal";
 import classes from "./index.module.css";
-const { container, imageContainer, descriptionPart } = classes;
+const { container, imageContainer, descriptionPart, deleteButton } = classes;
 
 export interface CardProps {
   title: string;
@@ -18,7 +19,11 @@ export default function Card({ title, image }: CardProps): JSX.Element {
         isOpen={isDeleteModalOpen}
         toggleModal={() => void setIsDeleteModalOpen((prevState) => !prevState)}
       >
-        <div>Hi</div>
+        <ConfirmAction
+          text="Decline product deleting"
+          confirmButtonCallback={() => {}}
+          declineButtonCallback={() => void setIsDeleteModalOpen(false)}
+        />
       </Modal>
       <div className={imageContainer}>
         <Image
@@ -33,6 +38,7 @@ export default function Card({ title, image }: CardProps): JSX.Element {
       <div className={descriptionPart}>
         <h3>{title}</h3>
         <button
+          className={deleteButton}
           onClick={() => {
             setIsDeleteModalOpen(true);
           }}
