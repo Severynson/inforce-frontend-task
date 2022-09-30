@@ -1,6 +1,7 @@
 import Card from "../Card";
 import classes from "./index.module.css";
 import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 const { container } = classes;
 
 export interface Product {
@@ -15,7 +16,7 @@ interface HomeProps {
 }
 
 export default function Home({ productsList }: HomeProps): JSX.Element {
-  const sortedProducts = useSelector<string, Product[]>(
+  const sortedProducts = useSelector<RootState, Product[]>(
     (state) => state.productsSlice.sortedProducts
   );
 

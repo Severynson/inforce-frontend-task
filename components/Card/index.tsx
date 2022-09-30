@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Modal from "../Modal";
 import classes from "./index.module.css";
 const { container, imageContainer, descriptionPart } = classes;
 
@@ -7,12 +8,10 @@ export interface CardProps {
   image: string; // url
 }
 
-export default function Card({
-  title,
-  image,
-}: CardProps): JSX.Element {
+export default function Card({ title, image }: CardProps): JSX.Element {
   return (
     <li className={container}>
+      <Modal active={true} setActive={() => {}} />
       <div className={imageContainer}>
         <Image
           layout="fill"
