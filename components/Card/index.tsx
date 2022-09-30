@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { useState } from "react";
 import Modal from "../Modal";
 import classes from "./index.module.css";
 const { container, imageContainer, descriptionPart } = classes;
@@ -9,9 +10,16 @@ export interface CardProps {
 }
 
 export default function Card({ title, image }: CardProps): JSX.Element {
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
+
   return (
     <li className={container}>
-      <Modal active={true} setActive={() => {}} />
+      <Modal
+        isOpen={isDeleteModalOpen}
+        toggleModal={() => void setIsDeleteModalOpen((prevState) => !prevState)}
+      >
+        <div>Hi</div>
+      </Modal>
       <div className={imageContainer}>
         <Image
           layout="fill"
@@ -24,7 +32,13 @@ export default function Card({ title, image }: CardProps): JSX.Element {
       </div>
       <div className={descriptionPart}>
         <h3>{title}</h3>
-        <button>Delete</button>
+        <button
+          onClick={() => {
+            setIsDeleteModalOpen(true);
+          }}
+        >
+          Delete
+        </button>
       </div>
     </li>
   );

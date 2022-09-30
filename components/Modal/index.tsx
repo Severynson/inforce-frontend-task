@@ -6,7 +6,7 @@ const { modal, modalContent, modalActiveClass, modalContentActiveClass } =
 
 interface ModalProps {
   isOpen: boolean;
-  setActive: (status: boolean) => void;
+  toggleModal: () => void;
   children?: JSX.Element | JSX.Element[];
 }
 
@@ -18,25 +18,25 @@ let nearRootElement: HTMLElement;
 
 export default function Modal({
   isOpen,
-  setActive,
+  toggleModal,
   children,
 }: ModalProps): JSX.Element | null {
   useEffect(() => {
     nearRootElement = document.createElement("div");
     document.body.appendChild(nearRootElement);
 
-    // on document unmount:
+    // on component unmount:
     return () => {
       if (document.body.contains(nearRootElement))
         document.body.removeChild(nearRootElement);
     };
-  }, [isOpen]);
+  }, []);
 
-  return nearRootElement
+  return isOpen && !!nearRootElement
     ? ReactDOM.createPortal(
         <div
           className={`${modal} ${isOpen ? modalActiveClass : ""}`}
-          onClick={() => void setActive(false)}
+          onClick={() => void toggleModal()}
         >
           <div
             className={`${modalContent} ${
