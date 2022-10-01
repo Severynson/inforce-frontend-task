@@ -3,7 +3,7 @@ const { container, inputGroup, buttonsGroup, acceptButton, declineButton } =
   classes;
 import { useForm } from "react-hook-form";
 
-interface Comment {
+export interface Comment {
   authorName: string;
   id: string;
   productId: string;
@@ -11,15 +11,19 @@ interface Comment {
 }
 
 interface AddCommentFormProps {
+  commentToEdit?: Comment | null;
+  clearCommentToEditStateHandler: () => void;
   productId: string;
   setRefetchedCommentsHandler: (refetchedComments: Comment[]) => void;
 }
 
 export default function AddCommentForm({
+  commentToEdit,
+  clearCommentToEditStateHandler,
   productId,
   setRefetchedCommentsHandler,
 }: AddCommentFormProps): JSX.Element {
-  const { register, handleSubmit, reset } = useForm({
+  const { register, handleSubmit, reset, setValue } = useForm({
     defaultValues: {
       authorName: "",
       id: "",
@@ -28,21 +32,37 @@ export default function AddCommentForm({
     } as Comment,
   });
 
-  const onSubmit = async (formData: Comment) => {
-    formData.id = `comment-${Math.random().toString().split("").slice(2).join("")}`;
+  setValue("authorName", commentToEdit ? commentToEdit.authorName : "");
+  setValue("text", commentToEdit ? commentToEdit.text : "");
 
-    const response = await fetch(
-      "http://localhost:3000/api/comments/new-comment",
-      {
+  const onSubmit = async (formData: Comment) => {
+    formData.id = commentToEdit
+      ? commentToEdit.id
+      : `comment-${Math.random().toString().split("").slice(2).join("")}`;
+
+    let response;
+
+    if (!commentToEdit)
+      response = await fetch("http://localhost:3000/api/comments/new-comment", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
-      }
-    );
+      });
+    else
+      response = await fetch(
+        `http://localhost:3000/api/comments/${formData.id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
 
-    if (response.status !== 201) {
+    if (response.status !== 200 && response.status !== 201) {
       alert("Error heppened while posting new product!");
     } else {
       const commentsList = JSON.parse(
@@ -52,8 +72,14 @@ export default function AddCommentForm({
       );
 
       setRefetchedCommentsHandler(commentsList);
-      reset();
     }
+    reset();
+    clearCommentToEditStateHandler();
+  };
+
+  const editDeclineHandler = () => {
+    clearCommentToEditStateHandler();
+    reset();
   };
 
   return (
@@ -74,9 +100,25 @@ export default function AddCommentForm({
       </div>
 
       <div className={buttonsGroup}>
-        <button type="submit" className={acceptButton}>
-          Write a comment
-        </button>
+        {!commentToEdit && (
+          <button type="submit" className={acceptButton}>
+            Write a comment
+          </button>
+        )}
+        {commentToEdit && (
+          <button type="submit" className={acceptButton}>
+            Edit
+          </button>
+        )}
+        {commentToEdit && (
+          <button
+            type="button"
+            onClick={editDeclineHandler}
+            className={declineButton}
+          >
+            Decline
+          </button>
+        )}
       </div>
     </form>
   );

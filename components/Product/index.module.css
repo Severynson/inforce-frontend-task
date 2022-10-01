@@ -51,7 +51,7 @@
   gap: 7px;
 }
 
-.comment {
+.commentClass {
   width: 95%;
   background-color: darkkhaki;
   text-align: left;
@@ -61,7 +61,7 @@
   flex-grow: 1;
 }
 
-.comment p {
+.commentClass p {
   padding: 0;
   margin: 0;
   display: flex;

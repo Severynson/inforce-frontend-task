@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import AddCommentForm from "../AddCommentForm";
+import AddCommentForm, { Comment } from "../AddOrEditCommentForm";
 import classes from "./index.module.css";
 const {
   root,
@@ -9,7 +9,7 @@ const {
   productClass,
   commentsSection,
   commentsListClass,
-  comment,
+  commentClass,
   commentButtons,
   deleteButton,
   editButton,
@@ -35,12 +35,11 @@ export default function Product({
   description,
 }: ProductProps) {
   const [comments, setComments] = useState<any[]>([]);
-  const [commentIsEditing, setCommentIsEditing] = useState<string>("");
+  const [commentToEdit, setCommentToEdit] = useState<Comment | null>(null);
 
   useEffect(() => {
     getComments(id).then((commentsList) => {
       setComments(commentsList);
-      console.log(comments);
     });
     // eslint-disable-next-line
   }, []);
@@ -60,12 +59,13 @@ export default function Product({
     } else {
       getComments(id).then((commentsList) => {
         setComments(commentsList);
-        console.log(comments);
       });
     }
   };
 
-  const editCommentHandler = (commentId: string) => {};
+  const editCommentHandler = (comment: Comment) => {
+    setCommentToEdit(comment);
+  };
 
   return (
     <div className={root}>
@@ -86,8 +86,11 @@ export default function Product({
         </div>
 
         <section className={commentsSection}>
-          <h2>Add comment:</h2>
+          {!commentToEdit && <h2>Add comment:</h2>}
+          {commentToEdit && <h2>Edit comment:</h2>}
           <AddCommentForm
+            commentToEdit={commentToEdit}
+            clearCommentToEditStateHandler={() => void setCommentToEdit(null)}
             productId={id}
             setRefetchedCommentsHandler={(refetchedCommentsList) =>
               void setComments(refetchedCommentsList)
@@ -95,9 +98,10 @@ export default function Product({
           />
           <h2>Comments:</h2>
           <div className={commentsListClass}>
-            {comments?.map(({ authorName, text, id: currentCommentId }) => {
+            {comments?.map((comment) => {
+              const { authorName, text, id: currentCommentId } = comment;
               return (
-                <div className={comment} key={text}>
+                <div className={commentClass} key={text}>
                   <p>
                     <strong>{authorName}</strong>: {text}
                   </p>
@@ -121,7 +125,7 @@ export default function Product({
                     </svg>
 
                     <svg
-                      onClick={() => void editCommentHandler(currentCommentId)}
+                      onClick={() => void editCommentHandler(comment)}
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
                       viewBox="0 0 24 24"

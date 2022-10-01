@@ -15,8 +15,6 @@ export const getServerSideProps: GetServerSideProps = async (
 ) => {
   const { params } = context;
 
-  console.log(params?.id);
-
   const response = await (
     await fetch(`http://localhost:3000/api/product/${params?.id}`)
   ).json();

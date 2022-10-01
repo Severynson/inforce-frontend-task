@@ -33,7 +33,6 @@ export default async function commentApi(
   }
   //
   else if (req.method === "POST" && forProductId === "new-comment") {
-    console.log("NEW COMMENT WAS SENDED", req.body);
     const response = await fetch(`${process.env.DB_HOST}/comments`, {
       method: "POST",
       headers: {
@@ -45,6 +44,24 @@ export default async function commentApi(
     //
     if ((await response.status) === 201)
       res.status(201).send(await response.json());
+    else res.status(400).json('{ "error": "connection with db failed"}');
+    //
+  }
+  //
+  else if (req.method === "PUT") {
+    const response = await fetch(
+      `${process.env.DB_HOST}/comments/${forProductId}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(req.body),
+      }
+    );
+    //
+    if ((await response.status) === 200)
+      res.status(200).send(await response.json());
     else res.status(400).json('{ "error": "connection with db failed"}');
     //
   } else {
