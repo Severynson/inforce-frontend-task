@@ -8,7 +8,7 @@ export default async function commentApi(
 
   if (req.method === "GET") {
     const response = await fetch(
-      `${process.env.DB_HOST}/comments?id=${forProductId}`
+      `${process.env.DB_HOST}/comments?productId=${forProductId}`
     );
 
     //

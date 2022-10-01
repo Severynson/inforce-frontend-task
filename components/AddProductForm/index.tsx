@@ -30,11 +30,13 @@ export default function AddProductForm({
       image: "",
       title: "",
       description: "",
-      id: `e${Math.random().toString().split("").slice(2).join("")}`,
+      id: "",
     } as Inputs,
   });
 
   const onSubmit = async (formData: Inputs) => {
+    formData.id = `e${Math.random().toString().split("").slice(2).join("")}`;
+
     const response = await fetch(
       "http://localhost:3000/api/product/new-product",
       {
@@ -67,12 +69,26 @@ export default function AddProductForm({
     <form className={container} onSubmit={handleSubmit(onSubmit)}>
       <div className={inputGroup}>
         <label htmlFor="image">Image URL:</label>
-        <input {...register("image")} id="image" name="image" type="text" />
+        <input
+          {...register("image", {
+            required: true,
+            pattern:
+              /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/,
+          })}
+          id="image"
+          name="image"
+          type="text"
+        />
       </div>
 
       <div className={inputGroup}>
         <label htmlFor="title">Title:</label>
-        <input {...register("title")} id="title" name="title" type="text" />
+        <input
+          {...register("title", { required: true, minLength: 2 })}
+          id="title"
+          name="title"
+          type="text"
+        />
       </div>
 
       <div className={inputGroup}>

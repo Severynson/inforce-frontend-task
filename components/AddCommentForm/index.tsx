@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 interface Comment {
   authorName: string;
   id: string;
+  productId: string;
   text: string;
 }
 
@@ -18,15 +19,18 @@ export default function AddCommentForm({
   productId,
   setRefetchedCommentsHandler,
 }: AddCommentFormProps): JSX.Element {
-  const { register, handleSubmit } = useForm({
+  const { register, handleSubmit, reset } = useForm({
     defaultValues: {
       authorName: "",
+      id: "",
+      productId,
       text: "",
-      id: productId,
     } as Comment,
   });
 
   const onSubmit = async (formData: Comment) => {
+    formData.id = `comment-${Math.random().toString().split("").slice(2).join("")}`;
+
     const response = await fetch(
       "http://localhost:3000/api/comments/new-comment",
       {
@@ -48,6 +52,7 @@ export default function AddCommentForm({
       );
 
       setRefetchedCommentsHandler(commentsList);
+      reset();
     }
   };
 
@@ -72,13 +77,6 @@ export default function AddCommentForm({
         <button type="submit" className={acceptButton}>
           Write a comment
         </button>
-        {/* <button
-          onClick={closeModalHandler}
-          type="button"
-          className={declineButton}
-        >
-          Decline
-        </button> */}
       </div>
     </form>
   );

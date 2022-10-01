@@ -35,6 +35,7 @@ export default function Product({
   description,
 }: ProductProps) {
   const [comments, setComments] = useState<any[]>([]);
+  const [commentIsEditing, setCommentIsEditing] = useState<string>("");
 
   useEffect(() => {
     getComments(id).then((commentsList) => {
@@ -43,6 +44,28 @@ export default function Product({
     });
     // eslint-disable-next-line
   }, []);
+
+  const deleteCommentHandler = async (commentId: string) => {
+    const response = await fetch(
+      `http://localhost:3000/api/comments/${commentId}`,
+      {
+        method: "DELETE",
+      }
+    );
+
+    if (response.status !== 200) {
+      alert(
+        "Error happened while trying to delete this comment: " + response.json()
+      );
+    } else {
+      getComments(id).then((commentsList) => {
+        setComments(commentsList);
+        console.log(comments);
+      });
+    }
+  };
+
+  const editCommentHandler = (commentId: string) => {};
 
   return (
     <div className={root}>
@@ -59,7 +82,7 @@ export default function Product({
 
           <h1>{title}</h1>
 
-          <p>{description}</p>
+          {description && <p>{description}</p>}
         </div>
 
         <section className={commentsSection}>
@@ -72,7 +95,7 @@ export default function Product({
           />
           <h2>Comments:</h2>
           <div className={commentsListClass}>
-            {comments?.map(({ authorName, text }) => {
+            {comments?.map(({ authorName, text, id: currentCommentId }) => {
               return (
                 <div className={comment} key={text}>
                   <p>
@@ -80,6 +103,9 @@ export default function Product({
                   </p>
                   <div className={commentButtons}>
                     <svg
+                      onClick={() =>
+                        void deleteCommentHandler(currentCommentId)
+                      }
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
                       viewBox="0 0 24 24"
@@ -95,6 +121,7 @@ export default function Product({
                     </svg>
 
                     <svg
+                      onClick={() => void editCommentHandler(currentCommentId)}
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
                       viewBox="0 0 24 24"
