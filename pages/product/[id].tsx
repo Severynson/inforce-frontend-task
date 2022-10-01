@@ -1,8 +1,21 @@
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
+import Layout, { LayoutProps } from "../../components/Layout";
 import Product, { ProductProps } from "../../components/Product";
 
-export default function ProductPage(props: ProductProps) {
-  return <Product {...props} />;
+interface ProductPageProps {
+  productProps: ProductProps;
+  layoutProps: LayoutProps;
+}
+
+export default function ProductPage({
+  productProps,
+  layoutProps,
+}: ProductPageProps) {
+  return (
+    <Layout {...layoutProps}>
+      <Product {...productProps} />
+    </Layout>
+  );
 }
 
 export const getServerSideProps: GetServerSideProps = async (
@@ -10,15 +23,26 @@ export const getServerSideProps: GetServerSideProps = async (
 ) => {
   const { params } = context;
 
-  const response = await fetch(
+  const responseProductProps = await fetch(
     `http://localhost:3000/api/product/${params?.id}`
   );
 
-  const responseJSON = await response.json();
+  const responseProductPropsJSON = await responseProductProps.json();
 
-  const product = JSON.parse(responseJSON)[0] as ProductProps;
+  const productProps = JSON.parse(responseProductPropsJSON)[0] as ProductProps;
+
+  const responseLayoutProps = await fetch(
+    `${process.env.API_HOST}/layout-data`
+  );
+
+  const responselayoutPropsJSON = await responseLayoutProps.json();
+
+  const layoutProps = JSON.parse(responselayoutPropsJSON);
 
   return {
-    props: product,
+    props: {
+      productProps,
+      layoutProps,
+    },
   };
 };

@@ -6,6 +6,7 @@ import classes from "./index.module.css";
 import { useDispatch } from "react-redux";
 import Modal from "../Modal";
 import AddOrEditProductForm from "../AddOrEditProductForm";
+import { useRouter } from "next/router";
 
 const {
   container,
@@ -49,6 +50,7 @@ export default function Header({
   secondaryColor = "#f59f00",
   textMainColor = "#222",
 }: HeaderProps): JSX.Element {
+  const { asPath } = useRouter();
   const dispatch = useDispatch();
   const [isAddProductModalOpen, setIsAddProductModalOpen] =
     useState<boolean>(false);
@@ -105,7 +107,7 @@ export default function Header({
           >
             {addProductButton.text}
           </button>
-          {
+          {asPath === "/" && (
             <select
               className={typesOfSorting}
               onChange={onSelectSortingOptionsHandler}
@@ -116,7 +118,7 @@ export default function Header({
               <option>{SortingOptions.SORTED_BY_ALPHABET}</option>
               <option>{SortingOptions.SORTED_BY_DEFAULT_ORDER}</option>
             </select>
-          }
+          )}
         </div>
       </div>
       <Modal toggleModal={addProductModalToggle} isOpen={isAddProductModalOpen}>

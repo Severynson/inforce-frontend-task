@@ -4,9 +4,9 @@ export default async function getLayoutDataApi(
   req: NextApiRequest,
   res: NextApiResponse<string>
 ) {
-  const layoutProps = await (
-    await fetch(`${process.env.DB_HOST}/layoutProps`)
-  ).json();
+  const layoutPropsResponse = await fetch(`${process.env.DB_HOST}/layoutProps`);
+  const layoutProps = await layoutPropsResponse.json();
+  const layoutPropsJSON = JSON.stringify(layoutProps);
 
-  res.status(200).json(JSON.stringify(layoutProps));
+  res.status(200).json(layoutPropsJSON);
 }

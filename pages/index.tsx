@@ -25,6 +25,7 @@ const HomePage: NextPage<HomePageProps> = ({
         sortingOption: SortingOptions.TYPE_OF_SORTING,
       })
     );
+    // fetch on the first render;
     // eslint-disable-next-line
   }, []);
 
@@ -47,12 +48,21 @@ const HomePage: NextPage<HomePageProps> = ({
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  const layoutProps = JSON.parse(
-    await (await fetch(`${process.env.API_HOST}/layout-data`)).json()
+  const layoutPropsResponse = await fetch(
+    `${process.env.API_HOST}/layout-data`
   );
-  const productsList = JSON.parse(
-    await (await fetch(`${process.env.API_HOST}/products-data`)).json()
+
+  const layoutPropsResponseJSON = await layoutPropsResponse.json();
+
+  const layoutProps = JSON.parse(layoutPropsResponseJSON);
+
+  const productsListResponse = await fetch(
+    `${process.env.API_HOST}/products-data`
   );
+
+  const productsListResponseJSON = await productsListResponse.json();
+
+  const productsList = JSON.parse(productsListResponseJSON);
 
   return {
     props: {
