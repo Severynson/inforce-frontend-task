@@ -43,3 +43,58 @@
   background-color: #fffff1;
   width: 450px;
 }
+
+.commentsListClass {
+  display: flex;
+  justify-content: center;
+  gap: 7px;
+}
+
+.comment {
+  width: 95%;
+  background-color: darkkhaki;
+  text-align: left;
+  padding: 5px 10px;
+  border-radius: 5px;
+  display: flex;
+  flex-grow: 1;
+}
+
+.comment p {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-grow: 1;
+  cursor: default;
+}
+
+.commentButtons {
+  height: 28px;
+}
+
+.commentButtons svg {
+  margin: 0 5px;
+  height: 100%;
+  border-radius: 5px;
+  transition: 0.4s;
+  cursor: pointer;
+}
+
+.editButton {
+  background-color: yellow;
+  color: cadetblue;
+}
+.editButton:hover {
+  background-color: cadetblue;
+  color: yellow;
+}
+
+.deleteButton {
+  color: #333;
+  background-color: tomato;
+}
+
+.deleteButton:hover {
+  color: tomato;
+  background-color: #333;
+}
