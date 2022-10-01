@@ -1,0 +1,46 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.buttonsGroup {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}
+
+.buttonsGroup button {
+  border: none;
+  width: 170px;
+  height: 40px;
+  border-radius: 5px;
+  transition: all 0.4s;
+}
+
+.acceptButton {
+  background-color: var(--button-color-1);
+  box-shadow: 0 0 0 1px white;
+}
+
+.acceptButton:hover {
+  background-color: white;
+  box-shadow: 0 0 0 1px var(--button-color-1);
+}
+
+.declineButton {
+  background-color: var(--button-color-2);
+  box-shadow: 0 0 0 1px white;
+}
+
+.declineButton:hover {
+  background-color: white;
+  box-shadow: 0 0 0 1px var(--button-color-2);
+}
