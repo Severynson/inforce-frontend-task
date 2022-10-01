@@ -8,10 +8,8 @@ export default async function commentApi(
 
   if (req.method === "GET") {
     const response = await fetch(
-      `${process.env.DB_HOST}/comments?productId=${forProductId}`
+      `${process.env.DB_HOST}/comments?id=${forProductId}`
     );
-
-
 
     //
     if (response.status === 200)
@@ -19,7 +17,9 @@ export default async function commentApi(
     //
     else res.status(400).json('{ "error": "connection with db failed"}');
     //
-  } else if (req.method === "DELETE") {
+  }
+  //
+  else if (req.method === "DELETE") {
     const response = await fetch(
       `${process.env.DB_HOST}/comments/${forProductId}`,
       {
@@ -33,6 +33,7 @@ export default async function commentApi(
   }
   //
   else if (req.method === "POST" && forProductId === "new-comment") {
+    console.log("NEW COMMENT WAS SENDED", req.body);
     const response = await fetch(`${process.env.DB_HOST}/comments`, {
       method: "POST",
       headers: {

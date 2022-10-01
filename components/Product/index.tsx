@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import AddCommentForm from "../AddCommentForm";
 import classes from "./index.module.css";
 const { root, container, imageContainer, productClass, commentsSection } =
   classes;
@@ -30,6 +31,7 @@ export default function Product({
       setComments(commentsList);
       console.log(comments);
     });
+    // eslint-disable-next-line
   }, []);
 
   return (
@@ -51,6 +53,13 @@ export default function Product({
         </div>
 
         <section className={commentsSection}>
+          <h2>Add comment:</h2>
+          <AddCommentForm
+            productId={id}
+            setRefetchedCommentsHandler={(refetchedCommentsList) =>
+              void setComments(refetchedCommentsList)
+            }
+          />
           <h2>Comments:</h2>
           {comments?.map(({ authorName, text }) => {
             return (
@@ -59,6 +68,7 @@ export default function Product({
               </p>
             );
           })}
+          {!comments.length && <h4>No comments yet</h4>}
         </section>
       </div>
     </div>

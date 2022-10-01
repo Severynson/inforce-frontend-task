@@ -132,6 +132,16 @@
       "productId": "e2",
       "authorName": "John",
       "text": "Veeeeery tasty, i like it more than peanut butter! :)"
+    },
+    {
+      "authorName": "Severyn",
+      "text": "pyg7uigi",
+      "id": "e2"
+    },
+    {
+      "authorName": "Severyn",
+      "text": "I didn't like it",
+      "id": "e0.11180618066370851"
     }
   ]
 }
