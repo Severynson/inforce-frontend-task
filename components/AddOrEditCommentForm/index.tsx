@@ -87,7 +87,7 @@ export default function AddCommentForm({
       <div className={inputGroup}>
         <label htmlFor="authorName">Author name:</label>
         <input
-          {...register("authorName")}
+          {...register("authorName", { required: true })}
           id="authorName"
           name="authorName"
           type="text"
@@ -96,7 +96,12 @@ export default function AddCommentForm({
 
       <div className={inputGroup}>
         <label htmlFor="text">Comment:</label>
-        <textarea {...register("text")} id="text" name="text" rows={8} />
+        <textarea
+          {...register("text", { required: true })}
+          id="text"
+          name="text"
+          rows={8}
+        />
       </div>
 
       <div className={buttonsGroup}>

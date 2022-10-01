@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import AddCommentForm, { Comment } from "../AddOrEditCommentForm";
+import Modal from "../Modal";
 import classes from "./index.module.css";
 const {
   root,
@@ -13,6 +14,7 @@ const {
   commentButtons,
   deleteButton,
   editButton,
+  editProductButtonClass,
 } = classes;
 
 export interface ProductProps {
@@ -35,6 +37,8 @@ export default function Product({
   description,
 }: ProductProps) {
   const [comments, setComments] = useState<any[]>([]);
+  const [editProductModalOpen, setEditProductModalOpen] =
+    useState<boolean>(false);
   const [commentToEdit, setCommentToEdit] = useState<Comment | null>(null);
 
   useEffect(() => {
@@ -83,6 +87,36 @@ export default function Product({
           <h1>{title}</h1>
 
           {description && <p>{description}</p>}
+        </div>
+
+        <div
+          className={editProductButtonClass}
+          onClick={() => {
+            setEditProductModalOpen(true);
+          }}
+        >
+          <p>Want to edit product ?</p>
+          <svg
+            onClick={() => {}}
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className={editButton}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
+            />
+          </svg>
+          <Modal
+            isOpen={editProductModalOpen}
+            toggleModal={() => {
+              setEditProductModalOpen((prevState) => !prevState);
+            }}
+          ></Modal>
         </div>
 
         <section className={commentsSection}>

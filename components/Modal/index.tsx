@@ -1,4 +1,4 @@
-import { MouseEvent, useEffect, useState } from "react";
+import { MouseEvent, MouseEventHandler, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import classes from "./index.module.css";
 const { modal, modalContent, modalActiveClass, modalContentActiveClass } =
@@ -25,10 +25,15 @@ export default function Modal({
     setIsBrowser(true);
   }, []);
 
+  const togleModalHandler: MouseEventHandler<HTMLDivElement> = (event) => {
+    event.stopPropagation();
+    toggleModal();
+  };
+
   const modalJSX = (
     <div
       className={`${modal} ${isOpen ? modalActiveClass : null}`}
-      onClick={() => void toggleModal()}
+      onClick={togleModalHandler}
     >
       <div
         className={`${modalContent} ${isOpen ? modalContentActiveClass : ""}`}
