@@ -17,7 +17,7 @@ interface Inputs {
 interface AddOrEditProductFormProps {
   productToEdit?: Product;
   closeModalHandler: () => void;
-  refetchProductHandler: () => void;
+  refetchProductHandler?: () => void;
 }
 
 export default function AddOrEditProductForm({
@@ -85,7 +85,7 @@ export default function AddOrEditProductForm({
       );
 
       closeModalHandler();
-      refetchProductHandler();
+      refetchProductHandler && refetchProductHandler();
     }
   };
 
