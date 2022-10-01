@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { productsActions } from "../../store/products-slice";
+import { Product } from "../Home";
 
 interface Inputs {
   image: string;
@@ -13,19 +14,23 @@ interface Inputs {
   id: string;
 }
 
-interface AddProductFormProps {
+interface AddOrEditProductFormProps {
+  productToEdit?: Product;
   closeModalHandler: () => void;
+  refetchProductHandler: () => void;
 }
 
-export default function AddProductForm({
+export default function AddOrEditProductForm({
+  productToEdit,
   closeModalHandler,
-}: AddProductFormProps): JSX.Element {
+  refetchProductHandler,
+}: AddOrEditProductFormProps): JSX.Element {
   const dispatch = useDispatch();
   const currentSortingOption = useSelector<RootState>(
     (state) => state.productsSlice.sortingOption
   );
 
-  const { register, handleSubmit } = useForm({
+  const { register, handleSubmit, setValue } = useForm({
     defaultValues: {
       image: "",
       title: "",
@@ -34,24 +39,40 @@ export default function AddProductForm({
     } as Inputs,
   });
 
-  const onSubmit = async (formData: Inputs) => {
-    formData.id = `e${Math.random().toString().split("").slice(2).join("")}`;
+  productToEdit && setValue("image", productToEdit.image);
+  productToEdit && setValue("title", productToEdit.title);
+  productToEdit && setValue("description", productToEdit.description);
 
-    const response = await fetch(
-      "http://localhost:3000/api/product/new-product",
-      {
+  const onSubmit = async (formData: Inputs) => {
+    formData.id = productToEdit
+      ? productToEdit.id
+      : `e${Math.random().toString().split("").slice(2).join("")}`;
+
+    let response;
+
+    if (!productToEdit)
+      response = await fetch("http://localhost:3000/api/product/new-product", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
-      }
-    );
+      });
+    else
+      response = await fetch(
+        `http://localhost:3000/api/product/${productToEdit.id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
 
-    if (response.status !== 201) {
+    if (response.status !== 200 && response.status !== 201) {
       alert("Error heppened while posting new product!");
     } else {
-      closeModalHandler();
       const productsList = JSON.parse(
         await (await fetch("http://localhost:3000/api/products-data")).json()
       );
@@ -62,6 +83,9 @@ export default function AddProductForm({
           sortingOption: currentSortingOption,
         })
       );
+
+      closeModalHandler();
+      refetchProductHandler();
     }
   };
 
@@ -102,7 +126,7 @@ export default function AddProductForm({
       </div>
       <div className={buttonsGroup}>
         <button type="submit" className={acceptButton}>
-          Accept
+          {productToEdit ? "Edit" : "Accept"}
         </button>
         <button
           onClick={closeModalHandler}

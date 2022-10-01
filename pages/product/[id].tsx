@@ -1,9 +1,4 @@
-import {
-  GetServerSideProps,
-  GetServerSidePropsContext,
-  GetStaticProps,
-  GetStaticPropsContext,
-} from "next";
+import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import Product, { ProductProps } from "../../components/Product";
 
 export default function ProductPage(props: ProductProps) {
@@ -15,11 +10,13 @@ export const getServerSideProps: GetServerSideProps = async (
 ) => {
   const { params } = context;
 
-  const response = await (
-    await fetch(`http://localhost:3000/api/product/${params?.id}`)
-  ).json();
+  const response = await fetch(
+    `http://localhost:3000/api/product/${params?.id}`
+  );
 
-  const product = JSON.parse(response)[0] as ProductProps;
+  const responseJSON = await response.json();
+
+  const product = JSON.parse(responseJSON)[0] as ProductProps;
 
   return {
     props: product,

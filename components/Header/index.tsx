@@ -5,7 +5,7 @@ import { SortingOptions, productsActions } from "../../store/products-slice";
 import classes from "./index.module.css";
 import { useDispatch } from "react-redux";
 import Modal from "../Modal";
-import AddProductForm from "../AddProductForm";
+import AddOrEditProductForm from "../AddOrEditProductForm";
 
 const {
   container,
@@ -120,7 +120,7 @@ export default function Header({
         </div>
       </div>
       <Modal toggleModal={addProductModalToggle} isOpen={isAddProductModalOpen}>
-        <AddProductForm {...{ closeModalHandler }} />
+        <AddOrEditProductForm {...{ closeModalHandler }} />
       </Modal>
     </header>
   );

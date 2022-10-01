@@ -10,19 +10,19 @@ export interface Comment {
   text: string;
 }
 
-interface AddCommentFormProps {
+interface AddOrCommentFormProps {
   commentToEdit?: Comment | null;
   clearCommentToEditStateHandler: () => void;
   productId: string;
   setRefetchedCommentsHandler: (refetchedComments: Comment[]) => void;
 }
 
-export default function AddCommentForm({
+export default function AddOrEditCommentForm({
   commentToEdit,
   clearCommentToEditStateHandler,
   productId,
   setRefetchedCommentsHandler,
-}: AddCommentFormProps): JSX.Element {
+}: AddOrCommentFormProps): JSX.Element {
   const { register, handleSubmit, reset, setValue } = useForm({
     defaultValues: {
       authorName: "",

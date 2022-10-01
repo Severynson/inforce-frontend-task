@@ -69,7 +69,12 @@ export default function Card({ title, image, id }: CardProps): JSX.Element {
         />
       </Modal>
       <div className={imageContainer}>
-        <Image layout="fill" objectFit="contain" alt="nut butter" src={image} />
+        {/* dont using NextJS Image tag
+            because url can be unpredictable
+            (can't preset domains passed by
+            forms) */}
+        {/* eslint-disable-next-line */}
+        <img alt="nut butter" src={image} />
       </div>
       <div className={descriptionPart}>
         <h3>{title}</h3>

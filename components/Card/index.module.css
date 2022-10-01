@@ -17,6 +17,19 @@
   background-color: white;
 }
 
+.imageContainer {
+  border-radius: 15px;
+  background-color: white;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+}
+
+.imageContainer img {
+  height: 100%;
+  scale: 1.03;
+}
+
 .descriptionPart {
   z-index: 1;
   display: flex;

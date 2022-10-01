@@ -1,6 +1,8 @@
 import Image from "next/image";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import AddCommentForm, { Comment } from "../AddOrEditCommentForm";
+import AddOrEditCommentForm, { Comment } from "../AddOrEditCommentForm";
+import AddOrEditProductForm from "../AddOrEditProductForm";
 import Modal from "../Modal";
 import classes from "./index.module.css";
 const {
@@ -25,17 +27,16 @@ export interface ProductProps {
 }
 
 const getComments = async (id: string) => {
-  return JSON.parse(
-    await (await fetch(`http://localhost:3000/api/comments/${id}`)).json()
-  );
+  const response = await fetch(`http://localhost:3000/api/comments/${id}`);
+  const commentsJSON = await response.json();
+
+  return JSON.parse(commentsJSON);
 };
 
-export default function Product({
-  id,
-  image,
-  title,
-  description,
-}: ProductProps) {
+export default function Product(props: ProductProps) {
+  const { id, image, title, description } = props;
+
+  const router = useRouter();
   const [comments, setComments] = useState<any[]>([]);
   const [editProductModalOpen, setEditProductModalOpen] =
     useState<boolean>(false);
@@ -71,17 +72,21 @@ export default function Product({
     setCommentToEdit(comment);
   };
 
+  const refetchProductHandler = () => {
+    router.replace(router.asPath);
+  };
+
   return (
     <div className={root}>
       <div className={container}>
         <div className={productClass}>
           <div className={imageContainer}>
-            <Image
-              src={image}
-              alt={`Image of ${title}`}
-              layout="fill"
-              objectFit="contain"
-            />
+            {/* dont using NextJS Image tag
+                because url can be unpredictable
+                (can't preset domains passed by
+                forms) */}
+            {/* eslint-disable-next-line */}
+            <img src={image} alt={`Image of ${title}`} />
           </div>
 
           <h1>{title}</h1>
@@ -113,16 +118,22 @@ export default function Product({
           </svg>
           <Modal
             isOpen={editProductModalOpen}
-            toggleModal={() => {
-              setEditProductModalOpen((prevState) => !prevState);
-            }}
-          ></Modal>
+            toggleModal={() =>
+              void setEditProductModalOpen((prevState) => !prevState)
+            }
+          >
+            <AddOrEditProductForm
+              closeModalHandler={() => void setEditProductModalOpen(false)}
+              productToEdit={props}
+              refetchProductHandler={refetchProductHandler}
+            />
+          </Modal>
         </div>
 
         <section className={commentsSection}>
           {!commentToEdit && <h2>Add comment:</h2>}
           {commentToEdit && <h2>Edit comment:</h2>}
-          <AddCommentForm
+          <AddOrEditCommentForm
             commentToEdit={commentToEdit}
             clearCommentToEditStateHandler={() => void setCommentToEdit(null)}
             productId={id}
