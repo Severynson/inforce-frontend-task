@@ -10,7 +10,11 @@ npm run dev
 yarn dev
 ```
 
+Concurrently JSON server will automly start
+
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+[http://localhost:3001](http://localhost:3001) is used for  JSON server for imitating requests and responses to the database.
 
 You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
 

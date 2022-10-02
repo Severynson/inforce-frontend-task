@@ -44,8 +44,6 @@ export default async function deleteProductApi(
         }
       );
 
-      console.log(response.status);
-
       if (response.status === 200) res.status(200).send(await response.json());
       else res.status(400).json('{ "error": "connection with db failed"}');
 
