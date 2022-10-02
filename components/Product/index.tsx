@@ -46,6 +46,7 @@ export default function Product(props: ProductProps) {
     getComments(id).then((commentsList) => {
       setComments(commentsList);
     });
+    // fetch on the first render
     // eslint-disable-next-line
   }, []);
 
