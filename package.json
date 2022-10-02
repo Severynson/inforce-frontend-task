@@ -5,8 +5,8 @@
   "scripts": {
     "server": "json-server -w server/db.json --port 3001",
     "dev": "concurrently \"yarn next dev\" \"yarn run server\" ",
-    "build": "next build",
-    "start": "concurrently \"yarn next start\" \"yarn run server\" ",
+    "build": "concurrently \"yarn next build\" \"yarn run server\" ",
+    "start": "concurrently \"yarn run server\" \"yarn next start\" ",
     "lint": "next lint"
   },
   "dependencies": {

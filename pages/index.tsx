@@ -48,21 +48,11 @@ const HomePage: NextPage<HomePageProps> = ({
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  const layoutPropsResponse = await fetch(
-    `${process.env.API_HOST}/layout-data`
-  );
+  const layoutPropsResponse = await fetch(`${process.env.DB_HOST}/layoutProps`);
+  const layoutProps = await layoutPropsResponse.json();
 
-  const layoutPropsResponseJSON = await layoutPropsResponse.json();
-
-  const layoutProps = JSON.parse(layoutPropsResponseJSON);
-
-  const productsListResponse = await fetch(
-    `${process.env.API_HOST}/products-data`
-  );
-
-  const productsListResponseJSON = await productsListResponse.json();
-
-  const productsList = JSON.parse(productsListResponseJSON);
+  const productsListResponse = await fetch(`${process.env.DB_HOST}/products`);
+  const productsList = await productsListResponse.json();
 
   return {
     props: {
