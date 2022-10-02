@@ -28,11 +28,7 @@ export default function Card({ title, image, id }: CardProps): JSX.Element {
       method: "DELETE",
     });
 
-    if (response.status !== 200) {
-      alert(
-        "Error happened while trying to delete this product: " + response.json()
-      );
-    } else {
+    if (response.status === 200) {
       setIsDeleteModalOpen(false);
       const productsList = JSON.parse(
         await (await fetch(`${process.env.API_HOST}/products-data`)).json()
@@ -44,10 +40,14 @@ export default function Card({ title, image, id }: CardProps): JSX.Element {
           sortingOption: currentSortingOption,
         })
       );
+    } else {
+      alert(
+        "Error happened while trying to delete this product: " + response.json()
+      );
     }
   };
 
-  const openProductPage: MouseEventHandler<HTMLLIElement> = (event) => {
+  const openProductPage: MouseEventHandler<HTMLLIElement> = () => {
     push("/product/" + id);
   };
 

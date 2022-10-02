@@ -1,5 +1,5 @@
 import { createSlice, current } from "@reduxjs/toolkit";
-import { Product } from "../components/Home";
+import { Product } from "../components/Product";
 
 export enum SortingOptions {
   TYPE_OF_SORTING = "type of sorting:",

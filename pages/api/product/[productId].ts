@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import { DbBasicRoutes } from "../../../routes/DB-routes";
 
 export default async function deleteProductApi(
   req: NextApiRequest,
@@ -9,7 +10,7 @@ export default async function deleteProductApi(
   switch (req.method) {
     case "GET": {
       const response = await fetch(
-        `${process.env.DB_HOST}/products?id=${productId}`
+        `${process.env.DB_HOST}/${DbBasicRoutes.PRODUCTS}?id=${productId}`
       );
 
       if (response.status === 200)
@@ -19,13 +20,16 @@ export default async function deleteProductApi(
       break;
     }
     case "POST": {
-      const response = await fetch(`${process.env.DB_HOST}/products`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(req.body),
-      });
+      const response = await fetch(
+        `${process.env.DB_HOST}/${DbBasicRoutes.PRODUCTS}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(req.body),
+        }
+      );
 
       if (response.status === 201) res.status(201).send(await response.json());
       else res.status(400).json('{ "error": "connection with db failed"}');
@@ -34,7 +38,7 @@ export default async function deleteProductApi(
     }
     case "PUT": {
       const response = await fetch(
-        `${process.env.DB_HOST}/products/${productId}`,
+        `${process.env.DB_HOST}/${DbBasicRoutes.PRODUCTS}/${productId}`,
         {
           method: "PUT",
           headers: {
@@ -51,7 +55,7 @@ export default async function deleteProductApi(
     }
     case "DELETE": {
       const response = await fetch(
-        `${process.env.DB_HOST}/products/${productId}`,
+        `${process.env.DB_HOST}/${DbBasicRoutes.PRODUCTS}/${productId}`,
         {
           method: "DELETE",
         }

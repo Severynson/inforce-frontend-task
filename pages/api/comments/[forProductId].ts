@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import { DbBasicRoutes } from "../../../routes/DB-routes";
 
 export default async function commentApi(
   req: NextApiRequest,
@@ -9,7 +10,7 @@ export default async function commentApi(
   switch (req.method) {
     case "GET": {
       const response = await fetch(
-        `${process.env.DB_HOST}/comments?productId=${forProductId}`
+        `${process.env.DB_HOST}/${DbBasicRoutes.COMMENTS}?productId=${forProductId}`
       );
 
       //
@@ -21,13 +22,16 @@ export default async function commentApi(
       break;
     }
     case "POST": {
-      const response = await fetch(`${process.env.DB_HOST}/comments`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(req.body),
-      });
+      const response = await fetch(
+        `${process.env.DB_HOST}/${DbBasicRoutes.COMMENTS}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(req.body),
+        }
+      );
 
       //
       if ((await response.status) === 201)
@@ -38,7 +42,7 @@ export default async function commentApi(
     }
     case "PUT": {
       const response = await fetch(
-        `${process.env.DB_HOST}/comments/${forProductId}`,
+        `${process.env.DB_HOST}/${DbBasicRoutes.COMMENTS}/${forProductId}`,
         {
           method: "PUT",
           headers: {
@@ -56,7 +60,7 @@ export default async function commentApi(
     }
     case "DELETE": {
       const response = await fetch(
-        `${process.env.DB_HOST}/comments/${forProductId}`,
+        `${process.env.DB_HOST}/${DbBasicRoutes.COMMENTS}/${forProductId}`,
         {
           method: "DELETE",
         }

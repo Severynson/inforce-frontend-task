@@ -2,6 +2,7 @@ import classes from "./index.module.css";
 const { container, inputGroup, buttonsGroup, acceptButton, declineButton } =
   classes;
 import { useForm } from "react-hook-form";
+import { ApiBasicRoutes } from "../../routes/api-routes";
 
 export interface Comment {
   authorName: string;
@@ -32,8 +33,8 @@ export default function AddOrEditCommentForm({
     } as Comment,
   });
 
-  setValue("authorName", commentToEdit ? commentToEdit.authorName : "");
-  setValue("text", commentToEdit ? commentToEdit.text : "");
+  commentToEdit && setValue("authorName", commentToEdit.authorName);
+  commentToEdit && setValue("text", commentToEdit.text);
 
   const onSubmit = async (formData: Comment) => {
     formData.id = commentToEdit
@@ -43,16 +44,19 @@ export default function AddOrEditCommentForm({
     let response;
 
     if (!commentToEdit)
-      response = await fetch(`${process.env.API_HOST}/comments/new-comment`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      response = await fetch(
+        `${process.env.API_HOST}/${ApiBasicRoutes.COMMENTS}/${formData.id}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
     else
       response = await fetch(
-        `${process.env.API_HOST}/comments/${formData.id}`,
+        `${process.env.API_HOST}/${ApiBasicRoutes.COMMENTS}/${formData.id}`,
         {
           method: "PUT",
           headers: {
@@ -62,17 +66,20 @@ export default function AddOrEditCommentForm({
         }
       );
 
-    if (response.status !== 200 && response.status !== 201) {
-      alert("Error heppened while posting new product!");
-    } else {
+    if ([200, 201].includes(response.status)) {
       const commentsList = JSON.parse(
         await (
-          await fetch(`${process.env.API_HOST}/comments/${productId}`)
+          await fetch(
+            `${process.env.API_HOST}/${ApiBasicRoutes.COMMENTS}/${productId}`
+          )
         ).json()
       );
 
       setRefetchedCommentsHandler(commentsList);
+    } else {
+      alert("Error heppened while posting new product!");
     }
+
     reset();
     clearCommentToEditStateHandler();
   };
