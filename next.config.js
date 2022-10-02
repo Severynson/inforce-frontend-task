@@ -10,6 +10,10 @@ const nextConfig = {
       "res.cloudinary.com",
     ],
   },
+  env: {
+    DB_HOST: "http://localhost:3001",
+    API_HOST: "http://localhost:3000/api",
+  },
 };
 
 module.exports = nextConfig;

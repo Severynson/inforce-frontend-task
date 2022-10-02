@@ -43,7 +43,7 @@ export default function AddOrEditCommentForm({
     let response;
 
     if (!commentToEdit)
-      response = await fetch("http://localhost:3000/api/comments/new-comment", {
+      response = await fetch(`${process.env.API_HOST}/comments/new-comment`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -52,7 +52,7 @@ export default function AddOrEditCommentForm({
       });
     else
       response = await fetch(
-        `http://localhost:3000/api/comments/${formData.id}`,
+        `${process.env.API_HOST}/comments/${formData.id}`,
         {
           method: "PUT",
           headers: {
@@ -67,7 +67,7 @@ export default function AddOrEditCommentForm({
     } else {
       const commentsList = JSON.parse(
         await (
-          await fetch(`http://localhost:3000/api/comments/${productId}`)
+          await fetch(`${process.env.API_HOST}/comments/${productId}`)
         ).json()
       );
 

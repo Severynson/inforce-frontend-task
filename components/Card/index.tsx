@@ -24,7 +24,7 @@ export default function Card({ title, image, id }: CardProps): JSX.Element {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
 
   const deleteItem = async () => {
-    const response = await fetch(`http://localhost:3000/api/product/${id}`, {
+    const response = await fetch(`${process.env.API_HOST}/product/${id}`, {
       method: "DELETE",
     });
 
@@ -35,7 +35,7 @@ export default function Card({ title, image, id }: CardProps): JSX.Element {
     } else {
       setIsDeleteModalOpen(false);
       const productsList = JSON.parse(
-        await (await fetch("http://localhost:3000/api/products-data")).json()
+        await (await fetch(`${process.env.API_HOST}/products-data`)).json()
       );
 
       dispatch(
