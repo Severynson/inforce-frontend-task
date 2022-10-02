@@ -1,6 +1,6 @@
-import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { ApiBasicRoutes } from "../../routes/api-routes";
 import AddOrEditCommentForm, { Comment } from "../AddOrEditCommentForm";
 import AddOrEditProductForm from "../AddOrEditProductForm";
 import Modal from "../Modal";
@@ -19,7 +19,7 @@ const {
   editProductButtonClass,
 } = classes;
 
-export interface ProductProps {
+export interface Product {
   id: string;
   image: string; // url
   title: string;
@@ -33,11 +33,11 @@ const getComments = async (id: string) => {
   return JSON.parse(commentsJSON);
 };
 
-export default function Product(props: ProductProps) {
+export default function ProductComponent(props: Product) {
   const { id, image, title, description } = props;
 
   const router = useRouter();
-  const [comments, setComments] = useState<any[]>([]);
+  const [comments, setComments] = useState<Comment[]>([]);
   const [editProductModalOpen, setEditProductModalOpen] =
     useState<boolean>(false);
   const [commentToEdit, setCommentToEdit] = useState<Comment | null>(null);
@@ -52,20 +52,20 @@ export default function Product(props: ProductProps) {
 
   const deleteCommentHandler = async (commentId: string) => {
     const response = await fetch(
-      `${process.env.API_HOST}/comments/${commentId}`,
+      `${process.env.API_HOST}/${ApiBasicRoutes.COMMENTS}/${commentId}`,
       {
         method: "DELETE",
       }
     );
 
-    if (response.status !== 200) {
-      alert(
-        "Error happened while trying to delete this comment: " + response.json()
-      );
-    } else {
+    if (response.status === 200) {
       getComments(id).then((commentsList) => {
         setComments(commentsList);
       });
+    } else {
+      alert(
+        "Error happened while trying to delete this comment: " + response.json()
+      );
     }
   };
 
@@ -75,6 +75,10 @@ export default function Product(props: ProductProps) {
 
   const refetchProductHandler = () => {
     router.replace(router.asPath);
+  };
+
+  const setRefetchedCommentsHandler = (refetchedCommentsList: Comment[]) => {
+    setComments(refetchedCommentsList);
   };
 
   return (
@@ -138,9 +142,7 @@ export default function Product(props: ProductProps) {
             commentToEdit={commentToEdit}
             clearCommentToEditStateHandler={() => void setCommentToEdit(null)}
             productId={id}
-            setRefetchedCommentsHandler={(refetchedCommentsList) =>
-              void setComments(refetchedCommentsList)
-            }
+            {...{ setRefetchedCommentsHandler }}
           />
           <h2>Comments:</h2>
           <div className={commentsListClass}>

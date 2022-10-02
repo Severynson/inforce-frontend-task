@@ -5,14 +5,8 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { productsActions } from "../../store/products-slice";
-import { Product } from "../Home";
-
-interface Inputs {
-  image: string;
-  title: string;
-  description: string;
-  id: string;
-}
+import { Product } from "../Product";
+import { ApiBasicRoutes } from "../../routes/api-routes";
 
 interface AddOrEditProductFormProps {
   productToEdit?: Product;
@@ -32,18 +26,18 @@ export default function AddOrEditProductForm({
 
   const { register, handleSubmit, setValue } = useForm({
     defaultValues: {
-      image: "",
+      id: "",
       title: "",
       description: "",
-      id: "",
-    } as Inputs,
+      image: "",
+    } as Product,
   });
 
   productToEdit && setValue("image", productToEdit.image);
   productToEdit && setValue("title", productToEdit.title);
   productToEdit && setValue("description", productToEdit.description);
 
-  const onSubmit = async (formData: Inputs) => {
+  const onSubmit = async (formData: Product) => {
     formData.id = productToEdit
       ? productToEdit.id
       : `e${Math.random().toString().split("").slice(2).join("")}`;
@@ -51,16 +45,19 @@ export default function AddOrEditProductForm({
     let response;
 
     if (!productToEdit)
-      response = await fetch(`${process.env.API_HOST}/product/new-product`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      response = await fetch(
+        `${process.env.API_HOST}/${ApiBasicRoutes.PRODUCT}/${formData.id}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
     else
       response = await fetch(
-        `${process.env.API_HOST}/product/${productToEdit.id}`,
+        `${process.env.API_HOST}/${ApiBasicRoutes.PRODUCT}/${productToEdit.id}`,
         {
           method: "PUT",
           headers: {
@@ -70,12 +67,13 @@ export default function AddOrEditProductForm({
         }
       );
 
-    if (response.status !== 200 && response.status !== 201) {
-      alert("Error heppened while posting new product!");
-    } else {
-      const productsList = JSON.parse(
-        await (await fetch(`${process.env.API_HOST}/products-data`)).json()
+    if ([200, 201].includes(response.status)) {
+      const productsListResponse = await fetch(
+        `${process.env.API_HOST}/${ApiBasicRoutes.PRODUCTS_DATA}`
       );
+      const productsListJSON = await productsListResponse.json();
+
+      const productsList = JSON.parse(productsListJSON);
 
       dispatch(
         productsActions.setData({
@@ -86,6 +84,8 @@ export default function AddOrEditProductForm({
 
       closeModalHandler();
       refetchProductHandler && refetchProductHandler();
+    } else {
+      alert("Error heppened while posting new product!");
     }
   };
 

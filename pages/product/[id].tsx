@@ -1,9 +1,10 @@
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import Layout, { LayoutProps } from "../../components/Layout";
-import Product, { ProductProps } from "../../components/Product";
+import ProductComponent, { Product } from "../../components/Product";
+import { ApiBasicRoutes } from "../../routes/api-routes";
 
 interface ProductPageProps {
-  productProps: ProductProps;
+  productProps: Product;
   layoutProps: LayoutProps;
 }
 
@@ -13,7 +14,7 @@ export default function ProductPage({
 }: ProductPageProps) {
   return (
     <Layout {...layoutProps}>
-      <Product {...productProps} />
+      <ProductComponent {...productProps} />
     </Layout>
   );
 }
@@ -24,12 +25,12 @@ export const getServerSideProps: GetServerSideProps = async (
   const { params } = context;
 
   const responseProductProps = await fetch(
-    `${process.env.API_HOST}/product/${params?.id}`
+    `${process.env.API_HOST}/${ApiBasicRoutes.PRODUCT}/${params?.id}`
   );
 
   const responseProductPropsJSON = await responseProductProps.json();
 
-  const productProps = JSON.parse(responseProductPropsJSON)[0] as ProductProps;
+  const productProps = JSON.parse(responseProductPropsJSON)[0] as Product;
 
   const responseLayoutProps = await fetch(
     `${process.env.API_HOST}/layout-data`
