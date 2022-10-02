@@ -51,7 +51,7 @@ export default function AddOrEditProductForm({
     let response;
 
     if (!productToEdit)
-      response = await fetch("http://localhost:3000/api/product/new-product", {
+      response = await fetch(`${process.env.API_HOST}/product/new-product`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -60,7 +60,7 @@ export default function AddOrEditProductForm({
       });
     else
       response = await fetch(
-        `http://localhost:3000/api/product/${productToEdit.id}`,
+        `${process.env.API_HOST}/product/${productToEdit.id}`,
         {
           method: "PUT",
           headers: {
@@ -74,7 +74,7 @@ export default function AddOrEditProductForm({
       alert("Error heppened while posting new product!");
     } else {
       const productsList = JSON.parse(
-        await (await fetch("http://localhost:3000/api/products-data")).json()
+        await (await fetch(`${process.env.API_HOST}/products-data`)).json()
       );
 
       dispatch(

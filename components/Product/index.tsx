@@ -27,7 +27,7 @@ export interface ProductProps {
 }
 
 const getComments = async (id: string) => {
-  const response = await fetch(`http://localhost:3000/api/comments/${id}`);
+  const response = await fetch(`${process.env.API_HOST}/comments/${id}`);
   const commentsJSON = await response.json();
 
   return JSON.parse(commentsJSON);
@@ -52,7 +52,7 @@ export default function Product(props: ProductProps) {
 
   const deleteCommentHandler = async (commentId: string) => {
     const response = await fetch(
-      `http://localhost:3000/api/comments/${commentId}`,
+      `${process.env.API_HOST}/comments/${commentId}`,
       {
         method: "DELETE",
       }
